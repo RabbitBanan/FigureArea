@@ -1,6 +1,7 @@
 -- Создаем отношение продукты и категории
+---- В чём прикол был сокращать такое короткое название? Потом страдать будешь, пытаясь вспомнить, как точно там всё сокращено
 CREATE TABLE Prod (
-	prod_id INT PRIMARY KEY IDENTITY,
+	prod_id INT PRIMARY KEY IDENTITY, 
   	prod_name VARCHAR(50)
 )
 
@@ -13,6 +14,7 @@ CREATE TABLE Category (
 CREATE TABLE ProdCategory (
 	prodcat_id INT PRIMARY KEY IDENTITY,
   	prod_id INT NOT NULL,
+	---- Почему категория может быть NULL? Какой бизнесовый (или технический смысл это имеет?) 
   	cat_id INT NULL,
   	FOREIGN KEY (prod_id) REFERENCES Prod (prod_id) ON DELETE CASCADE,
     FOREIGN KEY (cat_id) REFERENCES Category (cat_id) ON DELETE CASCADE
@@ -54,5 +56,6 @@ SELECT
 	p.prod_name,
     c.cat_name
 FROM ProdCategory pc 
+---- А почему INNER JOIN а не LEFT JOIN? Тогда непришлось бы делать костыль на 18 строчке 
 INNER JOIN Prod p ON pc.prod_id = p.prod_id
 LEFT JOIN Category c ON pc.cat_id = c.cat_id
